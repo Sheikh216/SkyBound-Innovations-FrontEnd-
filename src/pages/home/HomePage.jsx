@@ -1,12 +1,17 @@
 import React from 'react'
+import { useEffect } from 'react'
 import Images_HomePages from './Images_HomePages'
 import Middle_HomePage from './Middle_HomePage'
 
 export default function HomePage() {
+
+  useEffect(() => {
+    document.title = "SkyBound";
+  }, [])
+
   return (
     <div>
-      <Images_HomePages></Images_HomePages>
-      
+      <Images_HomePages />
 
       <div className='flex justify-center space-x-2 relative bottom-7'>
         <select className="select select-bordered w-full max-w-xs">
@@ -23,7 +28,7 @@ export default function HomePage() {
 
       </div>
 
-      <Middle_HomePage></Middle_HomePage>
+      <Middle_HomePage />
 
     </div>
   )

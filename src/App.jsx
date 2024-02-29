@@ -1,41 +1,47 @@
-//import { useState } from 'react'
-//import reactLogo from './assets/react.svg'
-//import viteLogo from '/vite.svg'
+import { Route, Routes } from 'react-router-dom'
+import HomePage from './pages/home/HomePage'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+import NotFound from './pages/NotFound'
+// import SideNavigation from './Dashboard/side_navigation'
+// import UserProfile from './Dashboard/UserProfile'
+import { useEffect } from 'react'
+import RequireAuth from './components/RequireAuth'
+import UserDashboard from './pages/user/UserDashboard';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
-import Footer from './Footer.jsx'
-import Header from './Header.jsx'
-import HomePage from './HomePage.jsx'
-import './LogIn.jsx'
-import LogIn from './LogIn.jsx'
-import Signup from './Signup.jsx'
-import SideNavigation from './Dashboard/side_navigation.jsx'
-import UserProfile from './Dashboard/UserProfile.jsx'
+
+import MainLayout from './pages/MainLayout.jsx'
+
+const ROLES = {
+  "Admin": 313,
+  "User": 1000,
+  "Airline": 2000
+}
 
 
 function App() {
-  //const [count, setCount] = useState(0)
+  useEffect(() => {
+    document.title = "My Page";
+    document.querySelector('html').setAttribute('data-theme', "light");
+  }, []);
 
   return (
-    <>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="user" element={<RequireAuth allowedRoles={[ROLES.User]} />}>
+            <Route index element={<UserDashboard />} />
+        </Route>
       
-
-
-      <Router>
-        <Header/>
-
-        <Routes>
-          <Route exact path = "/" element={<HomePage></HomePage>}></Route>
-          <Route exact path = "/Login" element={<LogIn></LogIn>}></Route>
-          <Route exact path = "/Signup" element={<Signup></Signup>}></Route>
-          <Route exact path = "/dashboard" element={<SideNavigation></SideNavigation>}></Route>
-          <Route exact path = "/user/profile" element={<UserProfile></UserProfile>}></Route>
-
-        </Routes>
-        <Footer></Footer>
-      </Router>
-
-    </>
+        <Route path="_" element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+          <Route index element={<AdminDashboard />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   )
 }
 

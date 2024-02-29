@@ -1,9 +1,20 @@
 import 'daisyui';
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 export default function Header() {
   const [isToggleOpen, setIsToggleOpen] = useState(false)
+
+  const { auth, setAuth } = useAuth();
+  const navigate = useNavigate();
+
+
+  const logout = async () => {
+    setAuth({});
+    navigate('/login');
+  }
 
   return (
     <>
@@ -43,7 +54,24 @@ export default function Header() {
     </ul>
   </div>
   <div className="navbar-end">
-    <Link to='/Login' className="btn shadow-lg mr-8">LOG IN </Link>
+    {(() => {
+      if (auth?.user) {
+        return (
+          <>
+          <span className="p-5"><b>Welcome {auth?.user}</b></span>
+          <button className="btn" onClick={logout}>Logout</button>
+          </>
+        )
+      } else {
+        return (
+        <>
+          <Link to='/login' className="btn shadow-lg mr-8">Login</Link>
+          <Link to='/signup' className="btn shadow-lg mr-8">Signup</Link>
+        </>
+        )
+      }
+
+    }) ()}
   </div>
 </div>
     </>
