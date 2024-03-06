@@ -6,8 +6,8 @@ import UserProfile from '../../Dashboard/UserProfile';
 const UserDashboard = () => {
   const {auth} = useAuth();
   useEffect(() => {
-    console.log("welcome");
-    console.log(auth);
+    // console.log("welcome");
+    // console.log(auth);
   }, [])
   return (
     <>

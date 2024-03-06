@@ -13,7 +13,7 @@ function SideNavigation() {
         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
         <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
           {/* Sidebar content here */}
-          <li className='text-2xl'><Link to='/user/profile'>Profile</Link></li>
+          <li className='text-2xl'><Link to='/user'>Profile</Link></li>
           <li className='text-2xl'><Link to='/user/schedule'>Schedule</Link></li>
           
         </ul>

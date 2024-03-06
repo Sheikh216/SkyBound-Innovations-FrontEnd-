@@ -12,6 +12,9 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 
 
 import MainLayout from './pages/MainLayout.jsx'
+import UserProfile from './Dashboard/UserProfile.jsx'
+import SideNavigation from './Dashboard/side_navigation.jsx'
+import Allusers from './pages/admin/Allusers.jsx'
 
 const ROLES = {
   "Admin": 313,
@@ -34,10 +37,16 @@ function App() {
         <Route path="signup" element={<Signup />} />
         <Route path="user" element={<RequireAuth allowedRoles={[ROLES.User]} />}>
             <Route index element={<UserDashboard />} />
+            <Route path='userProfile' element={<SideNavigation />} />
+            
         </Route>
+
+        
       
         <Route path="_" element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
           <Route index element={<AdminDashboard />} />
+          <Route path='allusers' element={<Allusers />} />
+          
         </Route>
         <Route path="*" element={<NotFound />} />
       </Route>

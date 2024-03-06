@@ -1,25 +1,43 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import useAuth from '../hooks/useAuth'
 
 export default function UserProfile() {
+
+  const {auth} = useAuth();
+  useEffect(() => {
+    console.log("welcome");
+    console.log(auth);
+  }, [])
+
+
+  
   return (
    <div>
    
 
-       <Link to='/dashboard' className="m-5 btn btn-outline btn-info">GO BACK </Link>
+       <Link to='/user/userProfile' className="m-5 btn btn-outline btn-info">GO BACK </Link>
         <form>
       <div className="space-y-12 m-5 mr-10">
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">Profile</h2>
+          {/* <h2 className="text-base font-semibold leading-7 text-gray-900">Profile</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
             This information will be displayed publicly so be careful what you share.
-          </p>
+          </p> */}
+
+          <h2 className="font-semibold leading-7 text-orange-600 flex justify-center text-4xl ">YOUR USER NAME:  <span className='text-2xl text-blue-400'>{auth.user}</span></h2>
+
+          <h2 className="font-semibold leading-7 text-orange-600 text-4xl flex justify-center mt-8 ">YOUR EMAIL:  <span className='text-2xl text-blue-400'>{auth.email}</span></h2>
+
+
+
+          
+           
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4">
-              <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
-                Username
-              </label>
+
               <div className="mt-2">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                   <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>

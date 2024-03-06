@@ -89,6 +89,7 @@ export default function Middle_HomePage() {
          </div>
        </div>
      </div>
+     
    </div>
  )
 }

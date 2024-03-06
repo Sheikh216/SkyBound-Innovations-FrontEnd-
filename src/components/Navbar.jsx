@@ -58,6 +58,7 @@ export default function Header() {
       if (auth?.user) {
         return (
           <>
+          <Link to='/user/userProfile' className='btn btn-primary rounded-2xl  '>Dashboard</Link>
           <span className="p-5"><b>Welcome {auth?.user}</b></span>
           <button className="btn" onClick={logout}>Logout</button>
           </>
