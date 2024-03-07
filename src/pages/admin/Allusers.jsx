@@ -45,11 +45,11 @@ const closeModal = () => {
       });
 
 
-      setUsers(response.data); // Assuming the response data is an array of users
+      setUsers(response.data); 
       // console.log('response',users);
     } catch (error) {
       console.error('Error fetching users:', error);
-      // Handle errors, e.g., show an error message to the user
+     
     }
   };
 
