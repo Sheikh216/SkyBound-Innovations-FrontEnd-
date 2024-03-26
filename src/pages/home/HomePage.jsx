@@ -2,6 +2,10 @@ import React from 'react'
 import { useEffect } from 'react'
 import Images_HomePages from './Images_HomePages'
 import Middle_HomePage from './Middle_HomePage'
+import ChatBot from "react-simple-chatbot";
+import {script} from "../../components/Chatbox/chatbox"
+import { stepifyScript } from "../../components/Chatbox/utils";
+import Packages from '../../components/Packages';
 
 export default function HomePage() {
 
@@ -29,6 +33,8 @@ export default function HomePage() {
       </div>
 
       <Middle_HomePage />
+      <Packages/>
+
 
     </div>
   )

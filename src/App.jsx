@@ -9,6 +9,9 @@ import { useEffect } from 'react'
 import RequireAuth from './components/RequireAuth'
 import UserDashboard from './pages/user/UserDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
+// import {script} from "./components/Chatbox/chatbox.js"
+// import { stepifyScript } from "./components/Chatbox//utils.js";
+
 
 
 import MainLayout from './pages/MainLayout.jsx'
@@ -35,6 +38,8 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
+        
+
         <Route path="user" element={<RequireAuth allowedRoles={[ROLES.User]} />}>
             <Route index element={<UserDashboard />} />
             <Route path='userProfile' element={<SideNavigation />} />
