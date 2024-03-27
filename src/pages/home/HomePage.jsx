@@ -1,11 +1,7 @@
-import React from 'react'
-import { useEffect } from 'react'
-import Images_HomePages from './Images_HomePages'
-import Middle_HomePage from './Middle_HomePage'
-import ChatBot from "react-simple-chatbot";
-import {script} from "../../components/Chatbox/chatbox"
-import { stepifyScript } from "../../components/Chatbox/utils";
-import Packages from '../../components/Packages';
+import React, { useEffect } from 'react';
+import Packages from '../packages/Packages';
+import Images_HomePages from './Images_HomePages';
+import Middle_HomePage from './Middle_HomePage';
 
 export default function HomePage() {
 

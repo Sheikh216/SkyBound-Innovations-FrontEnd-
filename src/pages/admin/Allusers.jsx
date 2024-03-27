@@ -13,7 +13,8 @@ export default function Allusers() {
  const handleClick = async (userId) => {
   try {
     const accessToken = auth.accessToken;
-    const response = await axios.get(`/users/${userId}`, {
+    console.log('USERS',accessToken)
+    const response = await axios.get(`/admin/users`, {
       headers: {
         Authorization: `Bearer ${accessToken}`
       }

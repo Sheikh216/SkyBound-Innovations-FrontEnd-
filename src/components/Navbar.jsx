@@ -1,10 +1,29 @@
 import 'daisyui';
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-
+import React from 'react';
 export default function Header() {
+
+  const [theme,setTheme] = React.useState('light')
+  const handleToggle = (e) =>{
+    if(e.target.checked){
+      setTheme('synthwave')
+    }else{
+      setTheme('light')
+    }
+  }
+
+  useEffect(()=>{
+    localStorage.setItem('theme',theme)
+    const localtheme = localStorage.getItem('theme')
+    document.querySelector('html').setAttribute('data-theme',localtheme)
+  },[theme])
+
+
+
+  console.log(theme)
   const [isToggleOpen, setIsToggleOpen] = useState(false)
 
   const { auth, setAuth } = useAuth();
@@ -18,7 +37,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="relative navbar ml-5 mb-20 bg-base-100 shadow-md">
+      <div className="relative navbar ml-5 mb-20 bg-base-100 shadow-lg">
   <div className="navbar-start">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -55,19 +74,20 @@ export default function Header() {
   </div>
   <div className="navbar-end">
     {(() => {
-      if (auth?.user) {
+      if (auth?.username ) {
         return (
           <>
-          <Link to='/user/userProfile' className='btn btn-primary rounded-2xl  '>Dashboard</Link>
-          <span className="p-5"><b>Welcome {auth?.user}</b></span>
+          <NavLink to='/user/userProfile' className={({isActive})=> isActive? 'text-primary font-extrabold': 'font-bold'}>Dashboard</NavLink>
+          <span className="p-5"><b>Welcome {auth?.username}</b></span>
           <button className="btn" onClick={logout}>Logout</button>
           </>
         )
       } else {
         return (
         <>
-          <Link to='/login' className="btn shadow-lg mr-8">Login</Link>
-          <Link to='/signup' className="btn shadow-lg mr-8">Signup</Link>
+          <NavLink to='/login' className="btn shadow-lg mr-8">Login</NavLink>
+          <NavLink to='/signup' className="btn shadow-lg mr-8 font-bold">Signup</NavLink>
+          <input onChange={handleToggle} type="checkbox"  className="toggle theme-controller"/>
         </>
         )
       }

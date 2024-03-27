@@ -26,7 +26,7 @@ export default function UserProfile() {
             This information will be displayed publicly so be careful what you share.
           </p> */}
 
-          <h2 className="font-semibold leading-7 text-orange-600 flex justify-center text-4xl ">YOUR USER NAME:  <span className='text-2xl text-blue-400'>{auth.user}</span></h2>
+          <h2 className="font-semibold leading-7 text-orange-600 flex justify-center text-4xl ">YOUR USER NAME:  <span className='text-2xl text-blue-400'>{auth.username}</span></h2>
 
           <h2 className="font-semibold leading-7 text-orange-600 text-4xl flex justify-center mt-8 ">YOUR EMAIL:  <span className='text-2xl text-blue-400'>{auth.email}</span></h2>
 

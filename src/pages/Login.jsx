@@ -15,8 +15,8 @@ export default function Login() {
   }, [])
 
   const navigate = useNavigate();
-  const [user, setUser] = useState('');
-  const [pwd, setPwd] = useState('');
+  const [username, setUser] = useState('');
+  const [password, setPwd] = useState('');
   const { setAuth } = useAuth();
 
   const handleSubmit =  async (e) => {
@@ -24,7 +24,7 @@ export default function Login() {
 
     try {
       const response = await axios.post(LOGIN_URL, 
-        JSON.stringify({ user, pwd }),
+        JSON.stringify({ username, password }),
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
@@ -34,8 +34,8 @@ export default function Login() {
       console.log(JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
-      const email = response?.data?.email;
-      setAuth({ user, pwd, roles, accessToken,email });
+      // const email = response?.data?.email;
+      setAuth({ username, password, roles, accessToken });
       setUser('');
       setPwd('');
 
@@ -79,7 +79,7 @@ export default function Login() {
               type="username"
               autoComplete="off"
               onChange={(e) => setUser(e.target.value)}
-              value={user}
+              value={username}
               required
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
@@ -99,7 +99,7 @@ export default function Login() {
               type="password"
               autoComplete="current-password"
               onChange={(e) => setPwd(e.target.value)}
-              value={pwd}
+              value={password}
               required
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />

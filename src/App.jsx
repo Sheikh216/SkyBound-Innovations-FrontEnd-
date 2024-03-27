@@ -18,6 +18,7 @@ import MainLayout from './pages/MainLayout.jsx'
 import UserProfile from './Dashboard/UserProfile.jsx'
 import SideNavigation from './Dashboard/side_navigation.jsx'
 import Allusers from './pages/admin/Allusers.jsx'
+import SinglePackageView from './pages/packages/SinglePackageView.jsx'
 
 const ROLES = {
   "Admin": 313,
@@ -34,15 +35,19 @@ function App() {
 
   return (
     <Routes>
+      {/* <Route path='/package/:id' element={<SinglePackageView/>}></Route> */}
       <Route path="/" element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
+        <Route path='package/:id' element={<SinglePackageView/>}/>
+            
         
 
         <Route path="user" element={<RequireAuth allowedRoles={[ROLES.User]} />}>
             <Route index element={<UserDashboard />} />
             <Route path='userProfile' element={<SideNavigation />} />
+            
             
         </Route>
 
