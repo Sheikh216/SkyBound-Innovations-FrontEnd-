@@ -10,7 +10,7 @@ export default function Packages() {
     const loadUsers = async () => {
       try {
         const accessToken = auth.accessToken;
-        const result = await axios.get("http://localhost:3000/package",{
+        const result = await axios.get("http://localhost:3001/user/package",{
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
@@ -36,11 +36,11 @@ export default function Packages() {
         <h2 className="card-title"><span className='text-blue-700 font-bold text-3xl'>{packages.Destination} </span></h2>
         <p><span className='text-blue-700 font-bold text-3xl'>No. of Days: {packages.No_of_days} </span></p>
         <p>Price: ${packages.price}</p>
-        {packages.HOTELS.length > 0 && (
+        {packages.hotel.length > 0 && (
           <div>
             <h3>Hotels:</h3>
             <ul>
-              {hotels.map((hotel, index) => (
+              {packages.hotel.map((hotel, index) => (
                 <li key={index}>{hotel}</li>
               ))}
             </ul>

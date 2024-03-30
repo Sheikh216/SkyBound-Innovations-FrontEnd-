@@ -10,11 +10,12 @@ export default function Allusers() {
  const {auth} = useAuth();
  const [selectedUser, setSelectedUser] = React.useState(null);
 
- const handleClick = async (userId) => {
+ const handleView = async (userId) => {
   try {
+    console.log('userId',userId)
     const accessToken = auth.accessToken;
-    console.log('USERS',accessToken)
-    const response = await axios.get(`/admin/users`, {
+    
+    const response = await axios.get(`/admin/users/${userId}`,{
       headers: {
         Authorization: `Bearer ${accessToken}`
       }
@@ -25,32 +26,48 @@ export default function Allusers() {
     console.error('Error fetching user:', error);
   }
 };
-
 const closeModal = () => {
   console.log('SETTING NULL')
   setSelectedUser(null); // Close the modal by resetting selectedUser state
 };
 
 
+// DELETE BUTTON
+const handleDelete = async (id) => {
+  try {
+    const accessToken = auth.accessToken;
+    console.log('accessToken',accessToken)
+    await axios.delete(`/admin/users`,JSON.stringify({id}) ,{
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      } 
+    });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+  }
+};
+
+
+// DELETE BUTTON
+
+
+
+
 
  React.useEffect(() => {
   const fetchUsers = async () => {
     try {
-      // Assuming you have access to the access token in the auth context
       const accessToken = auth.accessToken;
-
-      const response = await axios.get('/users', {
+      console.log('USERS',accessToken)
+      const response = await axios.get(`/admin/users`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       });
-
-
-      setUsers(response.data); 
-      // console.log('response',users);
+      setUsers(response.data); // Set the selected user
+      console.log('selectuser',response.data)
     } catch (error) {
-      console.error('Error fetching users:', error);
-     
+      console.error('Error fetching user:', error);
     }
   };
 
@@ -94,8 +111,8 @@ const closeModal = () => {
            <td>{user.favoriteColor}</td>
            
            <td className='space-x-4 ml-5'>
-             <button onClick={()=> handleClick(user._id)} className="btn btn-primary">View</button>
-             <button className="btn btn-error">Delete</button>
+             <button onClick={()=> handleView(user._id)} className="btn btn-primary">View</button>
+             <button onClick={()=> handleDelete(user._id)} className="btn btn-error">Delete</button>
              <button className="btn btn-accent">Update</button>
            </td>
          </tr>

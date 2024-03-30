@@ -11,7 +11,7 @@ export default function SinglePackageView() {
   useEffect(() => {
     const loadPackage = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/package/${id}`);
+        const response = await axios.get(`http://localhost:3001/package/${id}`);
         setPackageData(response.data);
         console.log(response.data);
       } catch (error) {

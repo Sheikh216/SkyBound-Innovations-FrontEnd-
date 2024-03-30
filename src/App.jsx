@@ -40,7 +40,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
-        <Route path='package/:id' element={<SinglePackageView/>}/>
+        <Route path='package/:id' element={<SinglePackageView/>} />
             
         
 
