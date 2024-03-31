@@ -4,8 +4,10 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import React from 'react';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export default function Header() {
-
+  
   const [theme,setTheme] = React.useState('light')
   const handleToggle = (e) =>{
     if(e.target.checked){
@@ -23,11 +25,12 @@ export default function Header() {
 
 
 
-  console.log(theme)
+  
   const [isToggleOpen, setIsToggleOpen] = useState(false)
 
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
+  // console.log('auth',auth.roles[0])
 
 
   const logout = async () => {
@@ -37,7 +40,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="relative navbar ml-5 mb-20 bg-base-100 shadow-lg">
+      <div className="relative navbar  mb-20 bg-base-100 shadow-lg">
   <div className="navbar-start">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -56,6 +59,8 @@ export default function Header() {
       </ul>
     </div>
     <Link to='/' className="btn btn-ghost text-2xl text-blue-500">SkyBound-Innovations</Link>
+    <input onChange={handleToggle} type="checkbox" className="toggle theme-controller"/>
+
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
@@ -73,26 +78,47 @@ export default function Header() {
     </ul>
   </div>
   <div className="navbar-end">
-    {(() => {
-      if (auth?.username ) {
-        return (
-          <>
-          <NavLink to='/user/userProfile' className={({isActive})=> isActive? 'text-primary font-extrabold': 'font-bold'}>Dashboard</NavLink>
+  {(() => {
+  if (auth?.username) {
+    if (auth?.roles[0] === 313) {
+      
+      return (
+        <div className='flex space-x-4'>
+          <NavLink to='_/Dashboard' className={({isActive})=> isActive ? 'text-primary font-extrabold' : 'font-bold'}>Admin Dashboard</NavLink>
           <span className="p-5"><b>Welcome {auth?.username}</b></span>
           <button className="btn" onClick={logout}>Logout</button>
-          </>
-        )
-      } else {
-        return (
-        <>
-          <NavLink to='/login' className="btn shadow-lg mr-8">Login</NavLink>
-          <NavLink to='/signup' className="btn shadow-lg mr-8 font-bold">Signup</NavLink>
-          <input onChange={handleToggle} type="checkbox"  className="toggle theme-controller"/>
-        </>
-        )
-      }
+          
+          <FontAwesomeIcon icon={faShoppingCart} />
 
-    }) ()}
+        </div>
+      );
+    } else {
+      // Render components for other authenticated users
+      return (
+        <>
+          <NavLink to='/user/userProfile' className={({isActive})=> isActive ? 'text-primary font-extrabold' : 'font-bold'}>Dashboard</NavLink>
+          <span className="p-5"><b>Welcome {auth?.username}</b></span>
+          <button className="btn" onClick={logout}>Logout</button>
+          <Link to='/user/cart'>
+            <FontAwesomeIcon icon={faShoppingCart} />
+          </Link>
+          
+
+        </>
+      );
+    }
+  } else {
+    // Render components for unauthenticated users
+    return (
+      <>
+        <NavLink to='/login' className="btn shadow-lg mr-8">Login</NavLink>
+        <NavLink to='/signup' className="btn shadow-lg mr-8 font-bold">Signup</NavLink>
+        
+      </>
+    );
+  }
+})()}
+
   </div>
 </div>
     </>

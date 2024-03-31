@@ -11,9 +11,9 @@ export default function Signup() {
   }, [])
 
   const navigate = useNavigate();
-  const [username, setUser] = useState('');
-  const [password, setPwd] = useState('');
-  // const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
 
   const handleSubmit = async (e) => {
@@ -21,7 +21,7 @@ export default function Signup() {
 
     try {
       const response = await axios.post(SIGNUP_URL, 
-        JSON.stringify({ username, password }),
+        JSON.stringify({ username, password, email }),
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
@@ -59,7 +59,7 @@ export default function Signup() {
                  name="username"
                  type="username"
                  autoComplete="off"
-                 onChange={(e) => setUser(e.target.value)}
+                 onChange={(e) => setUsername(e.target.value)}
                  value={username}
                  required
                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -67,7 +67,7 @@ export default function Signup() {
              </div>
            </div>
            <div>
-             <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+             <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
               Password
              </label>
              <div className="mt-2">
@@ -76,7 +76,7 @@ export default function Signup() {
                  name="password"
                  type="password"
                  autoComplete="off"
-                 onChange={(e) => setPwd(e.target.value)}
+                 onChange={(e) => setPassword(e.target.value)}
                  value={password}
                  required
                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -85,7 +85,7 @@ export default function Signup() {
            </div>
            {/* Email starts*/}
 
-           {/* <div>
+           <div>
              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
               Email
              </label>
@@ -101,7 +101,7 @@ export default function Signup() {
                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                />
              </div>
-           </div> */}
+           </div>
            
 
 
@@ -121,4 +121,3 @@ export default function Signup() {
    </>
  )
 }
-

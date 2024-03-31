@@ -2,9 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useAuth  from "../hooks/useAuth";
 import axios from "../api/axios";
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from "jwt-decode";
 
 
 const LOGIN_URL = '/auth';
@@ -18,74 +15,35 @@ export default function Login() {
   }, [])
 
   const navigate = useNavigate();
-  const [username, setUser] = useState('');
-  const [password, setPwd] = useState('');
-  const [email,setEmail] = useState('')
-  const { setAuth } = useAuth();
-
-  // GOOGLE LOG IN 
-  const handleGoogle =  async () => {
-    
-
-    try {
-      const response = await axios.post(LOGIN_URL, 
-        JSON.stringify({ username, password,email }),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        }
-      );
-
-      console.log(JSON.stringify(response?.data));
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
-      console.log('response',response.data)
-      // const email = response?.data?.email;
-      setAuth({ username, password, roles, accessToken });
-      setUser('');
-      setPwd('');
-
-      {
-        (() => {
-          if (roles[0] === 313) { navigate('/_/allusers') }
-          if (roles[0] === 1000) { navigate('/user/userProfile') }
-        }) ()
-      }
-      
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-
-
-  // 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { auth,setAuth } = useAuth();
 
   const handleSubmit =  async (e) => {
     e.preventDefault();
-
+    console.log('auth',auth)
     try {
       const response = await axios.post(LOGIN_URL, 
-        JSON.stringify({ username, password,email }),
+        JSON.stringify({ username, password }),
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
         }
       );
 
-      console.log(JSON.stringify(response?.data));
+      console.log('response',JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
-      console.log('response',response.data)
-      // const email = response?.data?.email;
-      setAuth({ username, password, roles, accessToken });
-      setUser('');
-      setPwd('');
+      const email = response?.data?.email;
+      setAuth({ username, roles, accessToken });
+      setUsername('');
+      setPassword('');
 
       {
         (() => {
           if (roles[0] === 313) { navigate('/_/allusers') }
-          if (roles[0] === 1000) { navigate('/user/userProfile') }
+          if (roles[0] === 1000) { navigate('/') }
+          if (roles[0] === 2000) { navigate('/') }
         }) ()
       }
       
@@ -96,7 +54,6 @@ export default function Login() {
 
 
   return (
-    
     <>
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -113,7 +70,7 @@ export default function Login() {
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+          <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
             User Name
           </label>
           <div className="mt-2">
@@ -122,7 +79,7 @@ export default function Login() {
               name="username"
               type="username"
               autoComplete="off"
-              onChange={(e) => setUser(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               value={username}
               required
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -142,7 +99,7 @@ export default function Login() {
               name="password"
               type="password"
               autoComplete="current-password"
-              onChange={(e) => setPwd(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               value={password}
               required
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -167,22 +124,7 @@ export default function Login() {
         </div>
       </p>
     </div>
-    <div className="flex justify-center">
-    <GoogleLogin
-  onSuccess={async credentialResponse => {
-    let credentialResponseDecoded = jwtDecode(credentialResponse.credential);
-    console.log(credentialResponseDecoded.email);
-    setEmail(credentialResponseDecoded.email);
-    await handleGoogle(); // Trigger form submission
-  }}
-  onError={() => {
-    console.log('Login Failed');
-  }}
-/>
-    </div>
   </div>
 </>
-
 )
 }
-

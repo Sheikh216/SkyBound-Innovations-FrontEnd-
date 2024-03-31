@@ -22,6 +22,9 @@ import UserProfile from './Dashboard/UserProfile.jsx'
 import SideNavigation from './Dashboard/side_navigation.jsx'
 import Allusers from './pages/admin/Allusers.jsx'
 import SinglePackageView from './pages/packages/SinglePackageView.jsx'
+import AllAirlines from './pages/admin/AllAirlines.jsx'
+import SingleView from './pages/packages/SingleView.jsx'
+import Cart from './pages/user/Cart.jsx'
 
 const ROLES = {
   "Admin": 313,
@@ -44,13 +47,14 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
-        <Route path='package/:id' element={<SinglePackageView/>} />
+        <Route path='package/:id' element={<SingleView/>} />
             
         
 
         <Route path="user" element={<RequireAuth allowedRoles={[ROLES.User]} />}>
             <Route index element={<UserDashboard />} />
             <Route path='userProfile' element={<SideNavigation />} />
+            <Route path='cart' element={<Cart />} />
             
             
         </Route>
@@ -58,8 +62,9 @@ function App() {
         
       
         <Route path="_" element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-          <Route index element={<AdminDashboard />} />
+          <Route path='Dashboard' element={<AdminDashboard />} />
           <Route path='allusers' element={<Allusers />} />
+          <Route path='allAirlines' element={<AllAirlines />} />
           
         </Route>
         <Route path="*" element={<NotFound />} />

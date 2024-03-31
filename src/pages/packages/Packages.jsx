@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 
+import SinglePackageView from './SinglePackageView.jsx';
+
 export default function Packages() {
  const [packageData,setPackageData] = React.useState([])
  const {auth} = useAuth()
@@ -27,39 +29,11 @@ export default function Packages() {
 
   return (
     <div className='grid grid-cols-3 m-24 space-x-8'>
-     {packageData.map((packages,index)=>(
-      <div className="card w-96 glass">
-      <figure>
-        <img src={packages.image} alt="New York"/>
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title"><span className='text-blue-700 font-bold text-3xl'>{packages.Destination} </span></h2>
-        <p><span className='text-blue-700 font-bold text-3xl'>No. of Days: {packages.No_of_days} </span></p>
-        <p>Price: ${packages.price}</p>
-        {packages.hotel.length > 0 && (
-          <div>
-            <h3>Hotels:</h3>
-            <ul>
-              {packages.hotel.map((hotel, index) => (
-                <li key={index}>{hotel}</li>
-              ))}
-            </ul>
-          </div>
-        
-        )}
-        <p className="description">
-          Explore the vibrant streets of {packages.Destination} with our {packages.No_of_days}-day package. Experience the rich culture, iconic landmarks, and delicious cuisine. Our package includes comfortable accommodations and exciting activities. Book now and make unforgettable memories!
-        </p>
-        <p className='text-blue-700 font-bold text-2xl mb-4'>
-         Airline: {packages.Airlines}
-        </p>
-        <div className="card-actions justify-end">
-          <Link to={`/package/${packages._id}`} className="btn btn-primary">Learn more</Link>
-        </div>
 
-      </div>
-    </div>
+    {packageData.map(Singlepackage => (
+        <SinglePackageView packages={Singlepackage} key={Singlepackage._id}  />
      ))}
+    
     </div>
   );
 }

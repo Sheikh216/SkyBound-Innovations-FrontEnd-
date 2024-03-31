@@ -8,8 +8,8 @@ const MainLayout = () => {
   return (
     <main className="App">
         <Navbar />
-        <Outlet />
-        <Footer />
+        <Outlet className='mb-80' />
+        <Footer className='mt-20' />
     </main>
   )
 }
