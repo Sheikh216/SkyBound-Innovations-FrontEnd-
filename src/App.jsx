@@ -9,6 +9,9 @@ import { useEffect } from 'react'
 import RequireAuth from './components/RequireAuth'
 import UserDashboard from './pages/user/UserDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
+
+import { GoogleOAuthProvider } from '@react-oauth/google'
+
 // import {script} from "./components/Chatbox/chatbox.js"
 // import { stepifyScript } from "./components/Chatbox//utils.js";
 
@@ -34,6 +37,7 @@ function App() {
   }, []);
 
   return (
+    
     <Routes>
       {/* <Route path='/package/:id' element={<SinglePackageView/>}></Route> */}
       <Route path="/" element={<MainLayout />}>

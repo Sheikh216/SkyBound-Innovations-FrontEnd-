@@ -13,6 +13,7 @@ export default function Allusers() {
  const handleView = async (userId) => {
   try {
     console.log('userId',userId)
+    console.log(auth)
     const accessToken = auth.accessToken;
     
     const response = await axios.get(`/admin/users/${userId}`,{
@@ -33,19 +34,24 @@ const closeModal = () => {
 
 
 // DELETE BUTTON
-const handleDelete = async (id) => {
+const handleDelete = async (userId) => {
   try {
-    const accessToken = auth.accessToken;
-    console.log('accessToken',accessToken)
-    await axios.delete(`/admin/users`,JSON.stringify({id}) ,{
+    const response = await axios.delete('/admin/users', {
       headers: {
-        Authorization: `Bearer ${accessToken}`
-      } 
+        'Authorization': `Bearer ${auth.accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      data: {
+        id: userId
+      }
     });
-  } catch (error) {
-    console.error('Error deleting user:', error);
+    
+  } catch(err) {
+    console.log(err);
   }
-};
+}
+
+
 
 
 // DELETE BUTTON

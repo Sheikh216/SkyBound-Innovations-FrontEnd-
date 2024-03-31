@@ -2,6 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useAuth  from "../hooks/useAuth";
 import axios from "../api/axios";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
 
 
 const LOGIN_URL = '/auth';
@@ -17,14 +20,53 @@ export default function Login() {
   const navigate = useNavigate();
   const [username, setUser] = useState('');
   const [password, setPwd] = useState('');
+  const [email,setEmail] = useState('')
   const { setAuth } = useAuth();
+
+  // GOOGLE LOG IN 
+  const handleGoogle =  async () => {
+    
+
+    try {
+      const response = await axios.post(LOGIN_URL, 
+        JSON.stringify({ username, password,email }),
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        }
+      );
+
+      console.log(JSON.stringify(response?.data));
+      const accessToken = response?.data?.accessToken;
+      const roles = response?.data?.roles;
+      console.log('response',response.data)
+      // const email = response?.data?.email;
+      setAuth({ username, password, roles, accessToken });
+      setUser('');
+      setPwd('');
+
+      {
+        (() => {
+          if (roles[0] === 313) { navigate('/_/allusers') }
+          if (roles[0] === 1000) { navigate('/user/userProfile') }
+        }) ()
+      }
+      
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+
+  // 
 
   const handleSubmit =  async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(LOGIN_URL, 
-        JSON.stringify({ username, password }),
+        JSON.stringify({ username, password,email }),
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
@@ -54,6 +96,7 @@ export default function Login() {
 
 
   return (
+    
     <>
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -124,8 +167,22 @@ export default function Login() {
         </div>
       </p>
     </div>
+    <div className="flex justify-center">
+    <GoogleLogin
+  onSuccess={async credentialResponse => {
+    let credentialResponseDecoded = jwtDecode(credentialResponse.credential);
+    console.log(credentialResponseDecoded.email);
+    setEmail(credentialResponseDecoded.email);
+    await handleGoogle(); // Trigger form submission
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>
+    </div>
   </div>
 </>
+
 )
 }
 
