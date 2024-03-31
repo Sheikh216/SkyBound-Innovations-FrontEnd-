@@ -1,29 +1,51 @@
-
-
 import React from 'react'
 import useAuth from '../../hooks/useAuth';
 import axios from '../../api/axios';
 import Modal from './Modal';
 
 export default function Allusers() {
- const [users, setUsers] = React.useState([]);
- const {auth} = useAuth();
- const [selectedUser, setSelectedUser] = React.useState(null);
+  const [users, setUsers] = React.useState([]);
+  const {auth} = useAuth();
+  const [selectedUser, setSelectedUser] = React.useState(null);
 
- const handleClick = async (userId) => {
+  const fetchUsers = async () => {
+    try {
+      // Assuming you have access to the access token in the auth context
+      const accessToken = auth.accessToken;
+
+      const response = await axios.get('/admin/users', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+      setUsers(response.data); 
+      // console.log('response',users);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
+  const handleClick = async (userId) => {
+    const selectedUser = users.find( (user) => user._id === userId );
+    setSelectedUser(selectedUser); // Set the selected user
+  };
+
+const handleDelete = async (userId) => {
   try {
-    const accessToken = auth.accessToken;
-    const response = await axios.get(`/users/${userId}`, {
+    const response = await axios.delete('/admin/users', {
       headers: {
-        Authorization: `Bearer ${accessToken}`
+        'Authorization': `Bearer ${auth.accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      data: {
+        id: userId
       }
     });
-    setSelectedUser(response.data); // Set the selected user
-    console.log('selectuser',response.data)
-  } catch (error) {
-    console.error('Error fetching user:', error);
+    fetchUsers();
+  } catch(err) {
+    console.log(err);
   }
-};
+}
 
 const closeModal = () => {
   console.log('SETTING NULL')
@@ -33,28 +55,9 @@ const closeModal = () => {
 
 
  React.useEffect(() => {
-  const fetchUsers = async () => {
-    try {
-      // Assuming you have access to the access token in the auth context
-      const accessToken = auth.accessToken;
-
-      const response = await axios.get('/users', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
-
-
-      setUsers(response.data); 
-      // console.log('response',users);
-    } catch (error) {
-      console.error('Error fetching users:', error);
-     
-    }
-  };
-
   fetchUsers();
-}, []);
+  }, []);
+
   return (
    <div className=" bg-slate-200 grid grid-cols-1 mb-80">
    <table className="table">
@@ -94,7 +97,7 @@ const closeModal = () => {
            
            <td className='space-x-4 ml-5'>
              <button onClick={()=> handleClick(user._id)} className="btn btn-primary">View</button>
-             <button className="btn btn-error">Delete</button>
+             <button onClick={()=> handleDelete(user._id)} className="btn btn-error">Delete</button>
              <button className="btn btn-accent">Update</button>
            </td>
          </tr>
