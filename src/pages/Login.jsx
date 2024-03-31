@@ -17,11 +17,15 @@ export default function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { setAuth } = useAuth();
+
+  const { auth,setAuth } = useAuth();
+
+  
+
 
   const handleSubmit =  async (e) => {
     e.preventDefault();
-
+    console.log('auth',auth)
     try {
       const response = await axios.post(LOGIN_URL, 
         JSON.stringify({ username, password }),
@@ -31,7 +35,7 @@ export default function Login() {
         }
       );
 
-      console.log(JSON.stringify(response?.data));
+      console.log('response',JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
       const email = response?.data?.email;
@@ -42,7 +46,8 @@ export default function Login() {
       {
         (() => {
           if (roles[0] === 313) { navigate('/_/allusers') }
-          if (roles[0] === 1000) { navigate('/user/userProfile') }
+          if (roles[0] === 1000) { navigate('/') }
+          if (roles[0] === 2000) { navigate('/') }
         }) ()
       }
       
@@ -127,4 +132,3 @@ export default function Login() {
 </>
 )
 }
-
