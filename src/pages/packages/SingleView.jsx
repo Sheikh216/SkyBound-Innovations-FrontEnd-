@@ -1,12 +1,24 @@
-import React from 'react'
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link, useParams } from 'react-router-dom';
 import axios from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 
 export default function SingleView({}) {
   const { id } = useParams();
   const {auth} = useAuth();
-  const [packageData,setPackageData] = React.useState('')
+  const [packageData,setPackageData] = useState('')
+
+  const [from,setFrom] = useState()
+  const [airlines,setAirlines] = useState()
+
+  const [flightInfo,setFlightInfo] = useState()
+
+  const [form,setForm] = useState(false)
+
+  const toggleFormVisibility = () => {
+    setForm((prevForm) => !prevForm);
+  };
+
   React.useEffect(() => {
     const loadPackage = async () => {
       try {
@@ -25,7 +37,30 @@ export default function SingleView({}) {
     };
 
     loadPackage();
-  }, []); // Include id in the dependency array
+  }, []); 
+
+  const getAllFlights = async () => {
+    try {
+      console.log(packageData.destination)
+      const accessToken = auth.accessToken;
+      const response = await axios.post("http://localhost:3001/user/flight", {
+        airlineName: airlines,
+        from: from,
+        to: packageData.destination 
+      }, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+      console.log("Flights:", response.data);
+      setFlightInfo(response.data)
+      
+    } catch (error) {
+      console.error("Error fetching flights:", error);
+      // Handle errors or display error messages to the user
+    }
+  };
+  
 
   // ADD TO CART 
   const addToCart = () => {
@@ -57,7 +92,29 @@ export default function SingleView({}) {
       <p className="mb-5"><span className='text-red-400 text-3xl'>Package Name : {packageData.packagename}</span></p>
       <p className="mb-5"><span className='text-red-400 text-3xl'>PRICE : {packageData.price}</span></p>
       {/* <p className="mb-5"><span className='text-red-400 text-3xl'>Hotels : {}</span></p> */}
-      <button className="btn btn-primary" onClick={addToCart}>ADD TO CART</button>
+      {/* <Link className="btn btn-primary" onClick={addToCart}>ADD TO CART</Link> */}
+      <button className="btn btn-primary" onClick={toggleFormVisibility}>SEE AVAILABLE FLIGHTS </button>
+      {form? <div className="join mt-4">
+  <div>
+  <select className="select select-bordered join-item" onChange={(e) => setFrom(e.target.value)}>
+    <option disabled selected>From</option>
+    <option>City A</option>
+    <option>Dhaka</option>
+    
+  </select>
+  </div>
+  <select className="select select-bordered join-item" onChange={(e) => setAirlines(e.target.value)}>
+    <option disabled selected>Airlines</option>
+    <option>Novo Air</option>
+    <option>US Bangla</option>
+    <option>Bangldesh Biman</option>
+  </select>
+  <div className="indicator">
+    <span className="indicator-item badge badge-secondary">new</span> 
+    <button className="btn join-item" onClick={getAllFlights}>Search</button>
+  </div>
+</div>: false}
+
     </div>
   </div>
 </div>
