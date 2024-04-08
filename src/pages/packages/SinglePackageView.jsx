@@ -36,9 +36,9 @@ export default function SinglePackageView({packages}) {
         <p className="description">
           Explore the vibrant streets of {destination} with our {no_of_days}-day package. Experience the rich culture, iconic landmarks, and delicious cuisine. Our package includes comfortable accommodations and exciting activities. Book now and make unforgettable memories!
         </p>
-        <p className='text-blue-700 font-bold text-2xl mb-4'>
+        {/* <p className='text-blue-700 font-bold text-2xl mb-4'>
          Airline: {airline_username}
-        </p>
+        </p> */}
         <div className="card-actions justify-end">
         <Link to={`/package/${_id}`} className="btn btn-primary">Learn more</Link>          
         </div>
