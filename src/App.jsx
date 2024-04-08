@@ -25,6 +25,7 @@ import SinglePackageView from './pages/packages/SinglePackageView.jsx'
 import AllAirlines from './pages/admin/AllAirlines.jsx'
 import SingleView from './pages/packages/SingleView.jsx'
 import Cart from './pages/user/Cart.jsx'
+import AllCoupons from './pages/admin/AllCoupons.jsx'
 
 const ROLES = {
   "Admin": 313,
@@ -65,6 +66,7 @@ function App() {
           <Route path='Dashboard' element={<AdminDashboard />} />
           <Route path='allusers' element={<Allusers />} />
           <Route path='allAirlines' element={<AllAirlines />} />
+          <Route path='allCoupons' element={<AllCoupons />} />
           
         </Route>
         <Route path="*" element={<NotFound />} />

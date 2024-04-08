@@ -78,12 +78,13 @@ export default function Header() {
     </ul>
   </div>
   <div className="navbar-end">
+  {console.log('autha',auth)}
   {(() => {
   if (auth?.username) {
     if (auth?.roles[0] === 313) {
       
       return (
-        <div className='flex space-x-4'>
+        <div className='flex space-x-4 justify-center items-center'>
           <NavLink to='_/Dashboard' className={({isActive})=> isActive ? 'text-primary font-extrabold' : 'font-bold'}>Admin Dashboard</NavLink>
           <span className="p-5"><b>Welcome {auth?.username}</b></span>
           <button className="btn" onClick={logout}>Logout</button>
@@ -96,15 +97,17 @@ export default function Header() {
       // Render components for other authenticated users
       return (
         <>
-          <NavLink to='/user/userProfile' className={({isActive})=> isActive ? 'text-primary font-extrabold' : 'font-bold'}>Dashboard</NavLink>
-          <span className="p-5"><b>Welcome {auth?.username}</b></span>
-          <button className="btn" onClick={logout}>Logout</button>
-          <Link to='/user/cart'>
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </Link>
-          
-
+            <NavLink to='/user/userProfile' className={({isActive}) => isActive ? 'text-primary font-extrabold' : 'font-bold'}>Dashboard</NavLink>
+            {auth.type === 'Normal' ? 
+              <button className='btn btn-outline btn-info mx-4'>CLICK TO BECOME PREMIUM USER</button> :
+              <span className="p-5" style={{ textShadow: '0 0 5px gold' }}><b>Welcome {auth?.username}</b></span>
+            }
+            <button className="btn btn-outline btn-info" onClick={logout}>Logout</button>
+            <Link to='/user/cart'>
+              <FontAwesomeIcon icon={faShoppingCart} />
+            </Link>
         </>
+
       );
     }
   } else {
