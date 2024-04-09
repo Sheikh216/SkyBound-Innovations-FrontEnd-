@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Packages from '../packages/Packages';
 import Images_HomePages from './Images_HomePages';
 import Middle_HomePage from './Middle_HomePage';
+import useAuth from '../../hooks/useAuth';
 
 export default function HomePage() {
+  const {auth} = useAuth();
   const [coupons, setCoupons] = useState([]);
+  const [airlines,setAirlines] = useState()
+  const [from,setFrom] = useState()
+  const [to,setTo] = useState()
 
   useEffect(() => {
     document.title = "SkyBound";
@@ -13,6 +18,30 @@ export default function HomePage() {
     setCoupons(existingCoupons);
     console.log(existingCoupons)
   }, []);
+
+
+  const getAllFlights = async () => {
+    try {
+      
+      const accessToken = auth.accessToken;
+      const response = await axios.post("http://localhost:3001/user/flight", {
+        airlineName: airlines,
+        from: from,
+        to: to 
+      }, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+      console.log("Flights:", response.data);
+      setFlightInfo(response.data)
+      setForm(false)
+      
+    } catch (error) {
+      console.error("Error fetching flights:", error);
+      // Handle errors or display error messages to the user
+    }
+  };
   
 
   return (
@@ -20,17 +49,23 @@ export default function HomePage() {
       <Images_HomePages />
 
       <div className='flex justify-center space-x-2 relative bottom-7'>
-        <select className="select select-bordered w-full max-w-xs">
+        <select onChange={(e) => setFrom(e.target.value)} className="select select-bordered w-full max-w-xs">
+          <option disabled selected>FROM</option>
+          <option>Dubai</option>
+          <option>Thailand</option>
+        </select>
+        <select onChange={(e) => setTo(e.target.value)} className="select select-bordered w-full max-w-xs">
           <option disabled selected>Choose your destination</option>
           <option>Dubai</option>
           <option>Thailand</option>
         </select>
-        <label className="flex justify-center w- form-control w-full max-w-xs">
-          <input type="text" placeholder="Departure Airport" className="input input-bordered w-full max-w-xs" />
-        </label>
-        <label className="flex justify-center w- form-control w-full max-w-xs">
-          <input type="text" placeholder="Arrival Airport" className="input input-bordered w-full max-w-xs" />
-        </label>
+        <select className="select select-bordered w-full max-w-xs">
+          <option onChange={(e) => setAirlines(e.target.value)} disabled selected>Choose your Airlines</option>
+          <option>Novo Air</option>
+          <option>Bangladesh Biman</option>
+          <option>US BANGLA</option>
+        </select>
+        <button onClick={getAllFlights} className='btn btn-primary'>SEARCH</button>
       </div>
 
       <Middle_HomePage />
