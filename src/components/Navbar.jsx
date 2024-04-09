@@ -6,6 +6,7 @@ import useAuth from '../hooks/useAuth';
 import React from 'react';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import NavBar from '../pages/airlines/NavBar';
 export default function Header() {
   
   const [theme,setTheme] = React.useState('light')
@@ -93,6 +94,19 @@ export default function Header() {
 
         </div>
       );
+
+
+    } else if(auth?.roles[0] === 2000){
+      
+      
+      return(
+        <NavBar></NavBar>
+      )
+        
+
+
+     
+
     } else {
       // Render components for other authenticated users
       return (
