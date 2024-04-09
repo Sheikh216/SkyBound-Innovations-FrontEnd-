@@ -28,6 +28,8 @@ import Cart from './pages/user/Cart.jsx'
 import AllCoupons from './pages/admin/AllCoupons.jsx'
 import AirlinesDashboard from './pages/airlines/AirlinesDashboard.jsx'
 import Packages from './pages/airlines/Packages.jsx'
+import Wishlist from './pages/user/Wishlist.jsx'
+import Weather from './pages/airlines/Weather.jsx'
 
 const ROLES = {
   "Admin": 313,
@@ -58,6 +60,7 @@ function App() {
             <Route index element={<UserDashboard />} />
             <Route path='userProfile' element={<SideNavigation />} />
             <Route path='cart' element={<Cart />} />
+            <Route path='wishlist' element={<Wishlist />} />
             
             
         </Route>
@@ -75,6 +78,7 @@ function App() {
         <Route path="airline" element={<RequireAuth allowedRoles={[ROLES.Airline]} />}>
         <Route path='dashboard' element={<AirlinesDashboard />} />
         <Route path='packages' element={<Packages />} />
+        <Route path='weather' element={<Weather />} />
 
 
         </Route>

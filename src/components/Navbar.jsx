@@ -6,6 +6,7 @@ import useAuth from '../hooks/useAuth';
 import React from 'react';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import NavBar from '../pages/airlines/NavBar';
 export default function Header() {
   
@@ -110,17 +111,22 @@ export default function Header() {
     } else {
       // Render components for other authenticated users
       return (
-        <>
+        <div className='space-x-8'>
             <NavLink to='/user/userProfile' className={({isActive}) => isActive ? 'text-primary font-extrabold' : 'font-bold'}>Dashboard</NavLink>
             {auth.type === 'Normal' ? 
               <button className='btn btn-outline btn-info mx-4'>CLICK TO BECOME PREMIUM USER</button> :
+              
               <span className="p-5" style={{ textShadow: '0 0 5px gold' }}><b>Welcome {auth?.username}</b></span>
             }
+
+            <NavLink to='/user/wishlist' className={({isActive}) => isActive ? 'text-primary font-extrabold' : 'font-bold'}>WishList <FontAwesomeIcon icon={faHeart} /></NavLink>
+
+            
             <button className="btn btn-outline btn-info" onClick={logout}>Logout</button>
             <Link to='/user/cart'>
               <FontAwesomeIcon icon={faShoppingCart} />
             </Link>
-        </>
+        </div>
 
       );
     }
