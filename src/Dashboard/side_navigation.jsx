@@ -15,6 +15,8 @@ function SideNavigation() {
           {/* Sidebar content here */}
           <li className='text-2xl'><Link to='/user'>Profile</Link></li>
           <li className='text-2xl'><Link to='/user/schedule'>Schedule</Link></li>
+          <li className='text-2xl'><Link to='/user/ticket'>Ticket</Link></li>
+
           
         </ul>
       </div>

@@ -118,6 +118,7 @@ export default function Header() {
               
               <span className="p-5" style={{ textShadow: '0 0 5px gold' }}><b>Welcome {auth?.username}</b></span>
             }
+            <Link to='/user/qr'>QR</Link>
 
             <NavLink to='/user/wishlist' className={({isActive}) => isActive ? 'text-primary font-extrabold' : 'font-bold'}>WishList <FontAwesomeIcon icon={faHeart} /></NavLink>
 

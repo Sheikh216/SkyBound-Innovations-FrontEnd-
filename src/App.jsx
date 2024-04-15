@@ -30,6 +30,8 @@ import AirlinesDashboard from './pages/airlines/AirlinesDashboard.jsx'
 import Packages from './pages/airlines/Packages.jsx'
 import Wishlist from './pages/user/Wishlist.jsx'
 import Weather from './pages/airlines/Weather.jsx'
+import QR from './components/QR.jsx'
+import Ticket from './pages/user/Ticket.jsx'
 
 const ROLES = {
   "Admin": 313,
@@ -61,6 +63,8 @@ function App() {
             <Route path='userProfile' element={<SideNavigation />} />
             <Route path='cart' element={<Cart />} />
             <Route path='wishlist' element={<Wishlist />} />
+            <Route path='qr' element={<QR />} />
+            <Route path='ticket' element={<Ticket/>} />
             
             
         </Route>
