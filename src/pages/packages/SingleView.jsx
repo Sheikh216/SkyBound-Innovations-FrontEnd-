@@ -150,7 +150,7 @@ export default function SingleView({}) {
     try {
       console.log(packageData.destination)
       const accessToken = auth.accessToken;
-      const response = await axios.post("http://localhost:3001/user/flight", {
+      const response = await axios.post("/user/flight", {
         airlineName: airlines,
         from: from,
         to: packageData.destination 
@@ -204,7 +204,7 @@ export default function SingleView({}) {
       return;
   }
 
-  existingCartItems.push({ packageName: packageData.packagename, price: totalPrice, image: packageData.image, seats: selectedSeats, flight_id: flightInfo._id });
+  existingCartItems.push({ username: auth.username, airlines: airlines, packageName: packageData.packagename, price: totalPrice, image: packageData.image, seats: selectedSeats, flight_id: flightInfo[0]._id });
   localStorage.setItem(auth.username, JSON.stringify(existingCartItems));
 
   toggleToast();

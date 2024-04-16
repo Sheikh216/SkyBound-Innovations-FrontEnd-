@@ -3,6 +3,8 @@ import useAuth from '../../hooks/useAuth';
 import { Link, useParams } from 'react-router-dom';
 import axios from '../../api/axios';
 import SingleView from './SingleView';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 export default function SinglePackageView({packages}) {
   const { auth, setAuth } = useAuth();
@@ -11,6 +13,24 @@ export default function SinglePackageView({packages}) {
   console.log('packages',packages)
   const {_id,image,destination,no_of_days,price,airline_username} = packages
   
+  const handleAddToWishlist = () => {
+    
+    let wishlist = JSON.parse(localStorage.getItem(`${auth.username}Wishlist`)) || [];
+    
+    const isPackageInWishlist = wishlist.find(item => item._id === _id);
+    if (!isPackageInWishlist) {
+      
+      wishlist = [...wishlist, packages];
+      
+      localStorage.setItem(`${auth.username}Wishlist`, JSON.stringify(wishlist));
+     
+      alert('Package added to wishlist!');
+    } else {
+      
+      alert('Package is already in wishlist!');
+    }
+  };
+
 
   return (
     <div>
@@ -23,9 +43,9 @@ export default function SinglePackageView({packages}) {
         <p><span className='text-blue-700 font-bold text-3xl'>No. of Days: {no_of_days} </span></p>
         <p>Price: ${price}</p>
         {packages.hotel.length > 0 && (
-          <div>
+          <div className='flex space-x-2'>
             <h3>Hotels:</h3>
-            <ul>
+            <ul className='font-bold'>
               {packages.hotel.map((hotel, index) => (
                 <li key={index}>{hotel}</li>
               ))}
@@ -34,12 +54,17 @@ export default function SinglePackageView({packages}) {
         
         )}
         <p className="description">
-          Explore the vibrant streets of {destination} with our {no_of_days}-day package. Experience the rich culture, iconic landmarks, and delicious cuisine. Our package includes comfortable accommodations and exciting activities. Book now and make unforgettable memories!
+          Explore the vibrant streets of <span className='font-bold'>{destination}</span> with our <span className='font-bold'>{no_of_days}</span>-day package. Experience the rich culture, iconic landmarks, and delicious cuisine. Our package includes comfortable accommodations and exciting activities. Book now and make unforgettable memories!
         </p>
         {/* <p className='text-blue-700 font-bold text-2xl mb-4'>
          Airline: {airline_username}
         </p> */}
-        <div className="card-actions justify-end">
+        
+        <div className="card-actions justify-around mt-4">
+        <button className='btn btn-error' onClick={handleAddToWishlist}>ADD TO WISHLIST
+        <FontAwesomeIcon icon={faHeart} />
+        </button>
+        
         <Link to={`/package/${_id}`} className="btn btn-primary">Learn more</Link>          
         </div>
 
