@@ -66,19 +66,7 @@ export default function Header() {
 
   </div>
   <div className="navbar-center hidden lg:flex">
-    <ul className="menu menu-horizontal px-1">
-      <li><a>Book</a></li>
-      <li>
-        <details>
-          <summary>Experience</summary>
-          <ul className="p-2">
-            <li><a>Local Flights</a></li>
-            <li><a>International Flights</a></li>
-          </ul>
-        </details>
-      </li>
-      <li><a>Help</a></li>
-    </ul>
+
   </div>
   <div className="navbar-end">
   {console.log('autha',auth)}

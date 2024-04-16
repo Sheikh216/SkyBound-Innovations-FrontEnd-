@@ -33,6 +33,7 @@ import Weather from './pages/airlines/Weather.jsx'
 import PersistLogin from './components/PersistLogin.jsx'
 import Success from './pages/PaymentSuccess.jsx'
 import Ticket from './pages/user/Ticket.jsx'
+import Profile from './pages/airlines/Profile.jsx'
 
 const ROLES = {
   "Admin": 313,
@@ -80,6 +81,7 @@ function App() {
                 <Route path='dashboard' element={<AirlinesDashboard />} />
                 <Route path='packages' element={<Packages />} />
                 <Route path='weather' element={<Weather />} />
+                <Route path='profile' element={<Profile />} />
               </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
