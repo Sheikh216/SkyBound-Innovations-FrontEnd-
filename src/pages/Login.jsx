@@ -21,15 +21,15 @@ export default function Login() {
 
   const handleSubmit =  async (e) => {
     e.preventDefault();
-    console.log('auth',auth)
     try {
       const response = await axios.post(LOGIN_URL, 
         JSON.stringify({ username, password }),
         {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
+          headers: { 'Content-Type': 'application/json' }
         }
       );
+
+      console.log(response);
 
       console.log('response',JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
@@ -37,6 +37,7 @@ export default function Login() {
       const email = response?.data?.email;
       const type = response?.data?.type
       setAuth({ username, roles, accessToken,email,type });
+      localStorage.setItem('auth', JSON.stringify({ username, roles, accessToken, email, type }));
       setUsername('');
       setPassword('');
 

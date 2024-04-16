@@ -36,6 +36,7 @@ export default function Header() {
 
 
   const logout = async () => {
+    localStorage.removeItem('auth');
     setAuth({});
     navigate('/login');
   }
