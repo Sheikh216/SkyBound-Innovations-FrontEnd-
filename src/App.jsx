@@ -32,6 +32,7 @@ import Wishlist from './pages/user/Wishlist.jsx'
 import Weather from './pages/airlines/Weather.jsx'
 import PersistLogin from './components/PersistLogin.jsx'
 import Success from './pages/PaymentSuccess.jsx'
+import Ticket from './pages/user/Ticket.jsx'
 
 const ROLES = {
   "Admin": 313,
@@ -65,6 +66,7 @@ function App() {
                   <Route path='userProfile' element={<SideNavigation />} />
                   <Route path='cart' element={<Cart />} />
                   <Route path='wishlist' element={<Wishlist />} />
+                  <Route path='ticket' element={<Ticket />} />
               </Route>
 
               <Route path="_" element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
