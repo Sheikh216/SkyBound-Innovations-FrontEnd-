@@ -8,7 +8,7 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    const itemsFromStorage = JSON.parse(localStorage.getItem(auth.username)) || [];
+    const itemsFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
     setCartItems(itemsFromStorage);
   }, [auth.username]);
 
@@ -43,7 +43,7 @@ const Cart = () => {
     console.log(packageName,cartItems)
     const updatedCartItems = cartItems.filter(item => item.packageName !== packageName);
     setCartItems(updatedCartItems);
-    localStorage.setItem(auth.username, JSON.stringify(updatedCartItems));
+    localStorage.setItem('cart', JSON.stringify(updatedCartItems));
   };
 
   return (

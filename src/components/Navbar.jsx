@@ -8,6 +8,8 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import NavBar from '../pages/airlines/NavBar';
+import axios from '../api/axios';
+
 export default function Header() {
   
   const [theme,setTheme] = React.useState('light')
@@ -26,13 +28,33 @@ export default function Header() {
   },[theme])
 
 
-
   
   const [isToggleOpen, setIsToggleOpen] = useState(false)
 
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   // console.log('auth',auth.roles[0])
+
+  const becomePremium = async () => {
+    console.log("becoming premium");
+    const response = await axios.post('/payment',{
+      username: auth.username,
+      purpose: "becoming_premium",
+      package_name: '',
+      airline_name: '',
+      price: '5000',
+      seats: '',
+      flight_id: ''
+    }, {
+     headers: {
+       Authorization: `Bearer ${auth.accessToken}`
+     }
+   });
+
+   if (response?.data?.url) {
+    window.location.replace(response.data.url);
+   }
+  }
 
 
   const logout = async () => {
@@ -115,7 +137,7 @@ export default function Header() {
         <div className='space-x-8'>
             <NavLink to='/user/userProfile' className={({isActive}) => isActive ? 'text-primary font-extrabold' : 'font-bold'}>Dashboard</NavLink>
             {auth.type === 'Normal' ? 
-              <button className='btn btn-outline btn-info mx-4'>CLICK TO BECOME PREMIUM USER</button> :
+              <button className='btn btn-outline btn-info mx-4' onClick={() => becomePremium()}>CLICK TO BECOME PREMIUM USER</button> :
               
               <span className="p-5" style={{ textShadow: '0 0 5px gold' }}><b>Welcome {auth?.username}</b></span>
             }

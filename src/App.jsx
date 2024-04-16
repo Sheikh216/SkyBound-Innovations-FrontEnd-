@@ -32,6 +32,7 @@ import Wishlist from './pages/user/Wishlist.jsx'
 import Weather from './pages/airlines/Weather.jsx'
 import PersistLogin from './components/PersistLogin.jsx'
 import Success from './pages/PaymentSuccess.jsx'
+import Fail from './pages/PaymentFail.jsx'
 import Ticket from './pages/user/Ticket.jsx'
 
 const ROLES = {
@@ -58,6 +59,7 @@ function App() {
               <Route path="signup" element={<Signup />} />
               <Route path='package/:id' element={<SingleView/>} />
               <Route path="/success" element={<Success />} />
+              <Route path="/fail" element={<Fail />} />
                 
             
 

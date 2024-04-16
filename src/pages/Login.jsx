@@ -10,9 +10,6 @@ const LOGIN_URL = '/auth';
 
 export default function Login() {
 
-  useEffect(() => {
-    document.title = "Login";
-  }, [])
 
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -20,6 +17,14 @@ export default function Login() {
 
   const { auth,setAuth } = useAuth();
 
+  useEffect(() => {
+    const storedAuthString = localStorage.getItem('auth');
+    if (storedAuthString) {
+        // If auth object is defined in localStorage, navigate to '/'
+        navigate('/');
+    }
+    document.title = "Login";
+  }, [])
   
 
 

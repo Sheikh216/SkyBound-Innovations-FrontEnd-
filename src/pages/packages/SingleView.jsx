@@ -188,7 +188,7 @@ export default function SingleView({}) {
 
 
   const totalPriceInCart = parseFloat(totalPrice);
-  const existingCartItems = JSON.parse(localStorage.getItem(auth.username)) || [];
+  const existingCartItems = JSON.parse(localStorage.getItem('cart')) || [];
 
   let isItemInCart = false;
   for (const item of existingCartItems) {
@@ -205,7 +205,7 @@ export default function SingleView({}) {
   }
 
   existingCartItems.push({ username: auth.username, airlines: airlines, packageName: packageData.packagename, price: totalPrice, image: packageData.image, seats: selectedSeats, flight_id: flightInfo[0]._id });
-  localStorage.setItem(auth.username, JSON.stringify(existingCartItems));
+  localStorage.setItem('cart', JSON.stringify(existingCartItems));
 
   toggleToast();
   
