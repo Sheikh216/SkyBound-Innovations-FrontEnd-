@@ -23,8 +23,7 @@ export default function Signup() {
       const response = await axios.post(SIGNUP_URL, 
         JSON.stringify({ username, password, email }),
         {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
+          headers: { 'Content-Type': 'application/json' }
         })
         console.log('response',response.data)
         navigate('/login');

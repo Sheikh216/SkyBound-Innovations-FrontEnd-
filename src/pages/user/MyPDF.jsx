@@ -29,11 +29,21 @@ const MyDocument = ({ text }) => (
   </Document>
 );
 
-const MyPDF = ({ flightDetails }) => (
+const MyPDF = ({ flightDetails, disabled }) => (
   <div>
-    <PDFDownloadLink document={<MyDocument text={flightDetails} />} fileName="ticket.pdf">
-      {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download PDF')}
-    </PDFDownloadLink>
+     <div>
+      {disabled ? (
+        <button disabled>N/A</button>
+      ) : (
+        <PDFDownloadLink document={<MyDocument text={flightDetails} />} fileName="ticket.pdf">
+          {({ blob, url, loading, error }) => (
+            <button style={{ backgroundColor: 'blue', color: 'white', padding: '8px 16px', border: 'none', borderRadius: '4px' }}>
+              {loading ? 'Loading document...' : 'Download PDF'}
+            </button>
+          )}
+        </PDFDownloadLink>
+      )}
+    </div>
   </div>
 );
 

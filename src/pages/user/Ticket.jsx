@@ -99,7 +99,7 @@ const createTicket = async (payment_id) => {
                   </td>
                   <td className="p-3">
                     <span>
-                      <MyPDF flightDetails={invoice} />
+                      <MyPDF flightDetails={invoice} disabled={ invoice.status === 'pending' }/>
                     </span>
                   </td>
                 </tr>
