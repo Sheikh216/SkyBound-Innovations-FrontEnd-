@@ -33,7 +33,7 @@ export default function Ticket() {
 
   if(history.length === 0) {
     return (
-      <div><p>Loading!!!</p></div>
+      <div><p>No Ticket Found</p></div>
     )
   }
 
