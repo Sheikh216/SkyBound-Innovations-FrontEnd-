@@ -1,38 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from '../../api/axios';
+import useAuth from '../../hooks/useAuth';
+import MyPDF from './MyPDF';
+
 
 export default function Ticket() {
-  // Array of objects holding invoice data
-  const invoices = [
-    {
-     invoiceNumber: '97412378923',
-      client: 'Microsoft Corporation',
-      seat: 'A3',
-      amount: '$15,792',
-      status: 'Pending'
-    },
-    {
-      invoiceNumber: '97412378923',
-      client: 'Tesla Inc.',
-      seat: 'A4',
-      amount: '$275',
-      status: 'Pending'
-    },
-    {
-      invoiceNumber: '97412378923',
-      client: 'Coca Cola co.',
-      seat: 'B1',
-      
-      amount: '$8,950,500',
-      status: 'Pending'
-    },
-    {
-      invoiceNumber: '97412378923',
-      client: 'Nvidia Corporation',
-      seat: 'A5',
-      amount: '$98,218',
-      status: 'Pending'
-    }
-  ];
+
+  const { auth } = useAuth();
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        // Make HTTP request to fetch history data
+        const response = await axios.get('/user/history', {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`
+          }
+        });
+        // Extract the history data from the response
+        const historyData = response.data;
+        // Update the state with the fetched history data
+        setHistory(historyData);
+      } catch (error) {
+        console.error('Error fetching history:', error);
+      }
+    };
+
+    // Call the fetchHistory function when the component mounts
+    fetchHistory();
+  }, []); // Em
+
+  if(history.length === 0) {
+    return (
+      <div><p>Loading!!!</p></div>
+    )
+  }
+
+
+const createTicket = async (payment_id) => {
+}
+
+
 
   return (
     <div>
@@ -51,34 +60,47 @@ export default function Ticket() {
             <thead className="dark:bg-gray-300">
               <tr className="text-left">
                 <th className="p-3">Transactions ID #</th>
-                <th className="p-3">Destination</th>
+                <th className="p-3">Package Name</th>
+                <th className="p-3">From</th>
+                <th className="p-3">To</th>
+                <th className="p-3">Time</th>
                 <th className="p-3">Seat</th>
-                
-                <th className="p-3">Amount</th>
+                <th className="p-3">Status</th>
                 <th className="p-3">Create Ticket</th>
               </tr>
             </thead>
             <tbody>
-              {invoices.map((invoice, index) => (
+              {history.map((invoice, index) => (
                 <tr
                   key={index}
                   className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50"
                 >
                   <td className="p-3">
-                    <p>{invoice.invoiceNumber}</p>
+                    <p>{invoice._id}</p>
                   </td>
                   <td className="p-3">
-                    <p>{invoice.client}</p>
+                    <p>{invoice.package_name}</p>
                   </td>
                   <td className="p-3">
-                    <p>{invoice.seat}</p>
+                    <p>{invoice.flightInfo[0].from}</p>
+                  </td>
+                  <td className="p-3">
+                    <p>{invoice.flightInfo[0].to}</p>
+                  </td>
+                  <td className="p-3">
+                    <p>{invoice.flightInfo[0].time}</p>
                   </td>
 
                   <td className="p-3 ">
-                    <p>{invoice.amount}</p>
+                    <p>{invoice.seats}</p>
                   </td>
                   <td className="p-3 ">
-                    <span><button className='btn btn-primary'>Create Ticket</button></span>
+                    <p>{invoice.status}</p>
+                  </td>
+                  <td className="p-3">
+                    <span>
+                      <MyPDF flightDetails={invoice} />
+                    </span>
                   </td>
                 </tr>
               ))}
@@ -89,3 +111,4 @@ export default function Ticket() {
     </div>
   );
 }
+

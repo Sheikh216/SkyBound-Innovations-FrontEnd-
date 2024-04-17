@@ -59,6 +59,7 @@ export default function Header() {
 
   const logout = async () => {
     localStorage.removeItem('auth');
+    localStorage.removeItem('cart');
     setAuth({});
     navigate('/login');
   }
