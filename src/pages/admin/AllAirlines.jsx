@@ -97,7 +97,7 @@ const closeModal = () => {
            <td className='space-x-4 ml-5'>
              <button onClick={()=> handleClick(user._id)} className="btn btn-primary">View</button>
              <button onClick={()=> handleDelete(user._id)} className="btn btn-error">Delete</button>
-             <button className="btn btn-accent">Update</button>
+             
            </td>
          </tr>
        ))}

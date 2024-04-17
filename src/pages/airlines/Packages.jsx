@@ -149,6 +149,25 @@ export default function Packages() {
     }
   }
 
+  const handleFlightDelete = async (flightId) => {
+    try {
+      console.log(flightId)
+      const response = await axios.delete('/airline/flight', {
+        headers: {
+          'Authorization': `Bearer ${auth.accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        data: {
+          id: flightId
+        }
+      });
+      fetchFlights();
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+
   const fetchFlights = async () => {
     try {
       const response = await axios.get('/airline/flight', {
@@ -422,7 +441,7 @@ export default function Packages() {
                 <td>{singlePackage.to}</td>
                 <td>{singlePackage.price}</td>
                 <td className='space-x-6'>
-                  <button className='btn btn-error'>DELETE</button>
+                  <button onClick={() => handleFlightDelete(singlePackage._id)}  className='btn btn-error'>DELETE</button>
                   <button className='btn btn-accent'>UPDATE</button>
                 </td>
               </tr>

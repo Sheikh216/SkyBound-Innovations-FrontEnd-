@@ -37,8 +37,11 @@ export default function UserProfile() {
               <svg viewBox="0 0 2 2" width={3} height={3} aria-hidden="true" className="fill-gray-900">
                 <circle cx={1} cy={1} r={1} />
               </svg>
-              <div className="text-gray-600">CEO of Workcation</div>
+              <div className="text-gray-600">{auth.email}</div>
+              
             </div>
+            <div className="text-gray-600 mt-4 flex items-center justify-center space-x-3 text-base">You are a <span className='text-blue-300 m-2'> {auth.type}</span> User</div>
+
           </figcaption>
         </figure>
       </div>
