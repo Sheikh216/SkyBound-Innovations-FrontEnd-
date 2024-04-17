@@ -92,7 +92,7 @@ const closeModal = () => {
            </td>
            <td>{user.email}</td> 
            {/* {console.log(user.roles.User)} */}
-           <td>{user.roles.User == 1000? 'Normal User':'Admin'}</td>
+           <td>{user.type === "Normal" ? 'Normal User':'Premium User'}</td>
            <td>{user.favoriteColor}</td>
            
            <td className='space-x-4 ml-5'>
