@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from '../../api/axios.js'
 import useAuth from '../../hooks/useAuth';
 import Modal from './Modal';
+import FlightInfoModal from './FlightInfoModal';
+import PackageInfoModal from './PackageInfoModal.jsx';
 
 export default function Packages() {
   const [packages, setPackages] = useState([]);
@@ -14,6 +16,19 @@ export default function Packages() {
   const accessToken = auth.accessToken;
   const [createToggle, setCreateToggle] = useState(false);
   const [createFlightToggle, setCreateFlightToggle] = useState(false);
+
+  const [flightInfo, setFlightInfo] = useState([]);
+  const [packageInfo, setPackageInfo] = useState([]);
+
+  const handleFlightInfoModal = (flightInfo) => {
+    setFlightInfo(flightInfo);
+    document.getElementById('flight_info_modal').showModal();
+  }
+
+  const handlePackageInfoModal = (packageInfo) => {
+    setPackageInfo(packageInfo);
+    document.getElementById('package_info_modal').showModal();
+  }
 
 
   // FOR FORM INPUTS
@@ -399,7 +414,8 @@ export default function Packages() {
                   <td className="space-x-4 ml-5">
                     <button onClick={() => handleClick(singlePackage._id)} className="btn btn-primary">View</button>
                     <button onClick={() => handleDelete(singlePackage._id)} className="btn btn-error">Delete</button>
-                    <button className="btn btn-accent">Update</button>
+                    <button className='btn btn-accent' onClick={() => handlePackageInfoModal(singlePackage)}>UPDATE</button>
+                    <PackageInfoModal Info={packageInfo} fetchPackages={fetchPackages}/>
                     <button onClick={() => handleCreateFlight(singlePackage.destination, singlePackage.price,singlePackage._id)}   className="btn btn-accent">Create Flight</button>
                     {/* onClick={() => handleCreateFlight(singlePackage._id,singlePackage.destination,singlePackage.price)} */}
                   </td>
@@ -419,7 +435,7 @@ export default function Packages() {
     <table className="table">
       <thead>
         <tr className=''>
-          <th className='text-2xl font-semibold'>Package ID</th>
+          <th className='text-2xl font-semibold'>Flight ID</th>
           <th className='text-2xl font-semibold'>Flight Name</th>
           <th className='text-2xl font-semibold'>From</th>
           <th className='text-2xl font-semibold'>To</th>
@@ -435,14 +451,15 @@ export default function Packages() {
 
               <tr>
               
-                <td>{singlePackage.packageId}</td>
+                <td>{singlePackage._id}</td>
                 <td>{singlePackage.flightName}</td>
                 <td>{singlePackage.from}</td>
                 <td>{singlePackage.to}</td>
                 <td>{singlePackage.price}</td>
                 <td className='space-x-6'>
                   <button onClick={() => handleFlightDelete(singlePackage._id)}  className='btn btn-error'>DELETE</button>
-                  <button className='btn btn-accent'>UPDATE</button>
+                  <button className='btn btn-accent' onClick={() => handleFlightInfoModal(singlePackage)}>UPDATE</button>
+                  <FlightInfoModal Info={flightInfo} fetchFlights={fetchFlights}/>
                 </td>
               </tr>
             )
